@@ -10,9 +10,10 @@ export function App() {
 }
 
 export function CartList() {
+  const name = "Grocery List";
   return (
     <div>
-      <h2>Grocery List</h2>
+      <h2>{name}</h2>
     </div>
   );
 }
