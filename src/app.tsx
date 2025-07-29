@@ -4,13 +4,14 @@ export function App() {
       <h1>Cartify</h1>
       <button>Click me</button>
 
-      <CartList />
+      <CartList name="Grocery List" />
+      <CartList name="Shopping List" />
+      <CartList name="Workshop List" />
     </div>
   );
 }
 
-export function CartList() {
-  const name = "Grocery List";
+export function CartList({ name }: { name: string }) {
   return (
     <div>
       <h2>{name}</h2>
