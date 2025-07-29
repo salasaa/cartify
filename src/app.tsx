@@ -13,11 +13,9 @@ export function App() {
       <ul>
         {cartifyList.map((list) => {
           return (
-            <CartList
-              key={list.id}
-              name={list.name}
-              isCompleted={list.isCompleted}
-            />
+            <li key={list.id}>
+              <CartList name={list.name} isCompleted={list.isCompleted} />
+            </li>
           );
         })}
       </ul>
