@@ -1,5 +1,14 @@
 const cartifyList = [
-  { id: 1, name: "Grocery List", isCompleted: true },
+  {
+    id: 1,
+    name: "Grocery List",
+    isCompleted: true,
+    items: [
+      { id: 1, name: "Milk", isCompleted: true },
+      { id: 2, name: "Bread", isCompleted: false },
+      { id: 3, name: "Salt", isCompleted: false },
+    ],
+  },
   { id: 2, name: "Shopping List", isCompleted: false },
   { id: 3, name: "Workshop List", isCompleted: false },
   { id: 4, name: "Kitchen List", isCompleted: true },
@@ -23,13 +32,7 @@ export function App() {
   );
 }
 
-export function CartList({
-  name,
-  isCompleted,
-}: {
-  name: string;
-  isCompleted?: boolean;
-}) {
+export function CartList({ name, isCompleted }: { name: string; isCompleted?: boolean }) {
   return (
     <div>
       <h2>
