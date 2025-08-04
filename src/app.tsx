@@ -25,8 +25,8 @@ const cartifyList = [
 export function App() {
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
-      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-xl flex-col sm:min-h-[calc(100vh-3rem)]">
-        <header className="mb-6 flex items-center justify-between">
+      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-xl flex-col p-2 sm:min-h-[calc(100vh-3rem)]">
+        <section className="mb-6 flex items-center justify-between">
           <div className="flex items-end space-x-2">
             <h1 className="font-['Inter'] text-2xl font-bold sm:text-3xl">
               Cartify
@@ -35,7 +35,12 @@ export function App() {
               Manage your shopping lists efficiently!
             </p>
           </div>
-        </header>
+        </section>
+
+        <button className="mb-4 rounded-full bg-gray-200 p-2 text-gray-800 transition-colors duration-200 focus:outline-none dark:bg-gray-700 dark:text-gray-200">
+          Add List
+        </button>
+
         <ul className="flex flex-col space-y-4">
           {cartifyList.map((list) => {
             return (
