@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const cartifyList = [
   {
@@ -17,7 +18,7 @@ const cartifyList = [
     isCompleted: true,
     items: [
       { id: 1, name: 'Tshirt', isCompleted: true },
-      { id: 2, name: 'Jeans', isCompleted: true },
+      { id: 2, name: 'Jeans', isCompleted: false },
       { id: 3, name: 'Hat', isCompleted: false },
     ],
   },
@@ -63,23 +64,40 @@ export function App() {
           </div>
         </section>
 
-        <div className="flex flex-1/2">
+        <section>
           <Button>Add List</Button>
-          <Button>check</Button>
-        </div>
+        </section>
 
-        <ul className="space-y-2 pt-4">
-          {calculatedLists.map((list) => (
-            <li key={list.id}>
-              {}
-              <CartList
-                name={list.name}
-                isListCompleted={list.isListCompleted}
-                statusText={list.statusText}
-              />
-            </li>
-          ))}
-        </ul>
+        <section className="mt-2 max-w-full overflow-auto">
+          <Tabs defaultValue="recent">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="recent">Recent</TabsTrigger>
+              <TabsTrigger value="completed">Completed</TabsTrigger>
+            </TabsList>
+            <TabsContent value="recent">
+              {calculatedLists.map((list) => (
+                <CartList
+                  key={list.id}
+                  name={list.name}
+                  isListCompleted={list.isListCompleted}
+                  statusText={list.statusText}
+                />
+              ))}
+            </TabsContent>
+            <TabsContent value="completed">
+              {calculatedLists
+                .filter((list) => list.isListCompleted)
+                .map((list) => (
+                  <CartList
+                    key={list.id}
+                    name={list.name}
+                    isListCompleted={list.isListCompleted}
+                    statusText={list.statusText}
+                  />
+                ))}
+            </TabsContent>
+          </Tabs>
+        </section>
       </div>
     </div>
   );
