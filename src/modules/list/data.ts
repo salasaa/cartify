@@ -1,4 +1,17 @@
-export const cartifyList = [
+export type ListItem = {
+  id: number;
+  name: string;
+  isCompleted: boolean;
+};
+
+export type DataList = {
+  id: number;
+  name: string;
+  isCompleted: boolean;
+  items: ListItem[];
+};
+
+export const dataLists: DataList[] = [
   {
     id: 1,
     name: 'Grocery List',

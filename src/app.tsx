@@ -1,31 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cartifyList } from './modules/cartify/data';
+import { dataLists, type ListItem } from '@/modules/list/data';
+import { calculateLists } from '@/modules/list/helper';
 
 export function App() {
-  const calculatedLists = cartifyList.map((list) => {
-    const completedItems = list.items.filter((item) => item.isCompleted).length;
-    const totalItems = list.items.length;
-
-    // this is the logic to determaine the status of list
-    let statusText = '';
-    let isListCompleted = false;
-
-    if (totalItems === 0) {
-      statusText = 'No items in list.';
-    } else if (completedItems === totalItems) {
-      statusText = 'Task is completed.';
-      isListCompleted = true;
-    } else {
-      statusText = `${completedItems} of ${totalItems} tasks are completed.`;
-    }
-
-    return {
-      ...list,
-      statusText,
-      isListCompleted,
-    };
-  });
+  const calculatedLists = calculateLists(dataLists);
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
@@ -58,6 +37,7 @@ export function App() {
                   name={list.name}
                   isListCompleted={list.isListCompleted}
                   statusText={list.statusText}
+                  items={list.items}
                 />
               ))}
             </TabsContent>
@@ -70,6 +50,7 @@ export function App() {
                     name={list.name}
                     isListCompleted={list.isListCompleted}
                     statusText={list.statusText}
+                    items={list.items}
                   />
                 ))}
             </TabsContent>
@@ -84,10 +65,12 @@ export function CartList({
   name,
   isListCompleted,
   statusText,
+  items,
 }: {
   name: string;
   isListCompleted?: boolean;
   statusText: string;
+  items: ListItem[];
 }) {
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow-md transition-shadow duration-200 hover:shadow-lg dark:bg-gray-800">
@@ -95,6 +78,16 @@ export function CartList({
         {name} {isListCompleted && '✔️'}
       </h2>
       <p>{statusText}</p>
+
+      <ul>
+        {items.map((item) => {
+          return (
+            <li key={item.id}>
+              {item.name} {item.isCompleted && '✅'}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
