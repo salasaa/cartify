@@ -94,7 +94,7 @@ export function CartList({
       <h2 className="mb-2 text-xl font-semibold">
         {name} {isListCompleted && '✔️'}
       </h2>
-      <p>{statusText}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400">{statusText}</p>
     </div>
   );
 }
