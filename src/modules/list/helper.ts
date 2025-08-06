@@ -1,6 +1,7 @@
 import type { DataList } from '@/modules/list/data';
 
 export function calculateLists(dataList: DataList[]) {
+  //this is not a component, it is a normal function, so it can be without {curly brackets}.
   return dataList.map((list) => {
     const completedItems = list.items.filter((item) => item.isCompleted).length;
     const totalItems = list.items.length;

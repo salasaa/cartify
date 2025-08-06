@@ -1,10 +1,29 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { AddListForm } from '@/components/add-list';
+import { Checkbox } from '@/components/ui/checkbox';
 import { dataLists, type ListItem } from '@/modules/list/data';
 import { calculateLists } from '@/modules/list/helper';
+import { Trash } from 'lucide-react';
 
 export function App() {
+  const [openDialog, setOpenDialog] = useState(false);
   const calculatedLists = calculateLists(dataLists);
+
+  const handleAddNewList = (listName: string) => {
+    console.log('Create a new list:', listName);
+    // Here you would typically add the new list to your state or backend.
+    setOpenDialog(false);
+  };
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
@@ -21,7 +40,20 @@ export function App() {
         </section>
 
         <section>
-          <Button>Add List</Button>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+            <DialogTrigger asChild>
+              <Button>Add List</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Create a New List</DialogTitle>
+                <DialogDescription>
+                  Enter a name for your new list
+                </DialogDescription>
+              </DialogHeader>
+              <AddListForm onAddList={handleAddNewList} />
+            </DialogContent>
+          </Dialog>
         </section>
 
         <section className="mt-2 max-w-full overflow-auto">
@@ -38,6 +70,8 @@ export function App() {
                   isListCompleted={list.isListCompleted}
                   statusText={list.statusText}
                   items={list.items}
+                  quantity={list.items.length}
+                  unit={list.items[0]?.unit || 'pcs'}
                 />
               ))}
             </TabsContent>
@@ -51,6 +85,8 @@ export function App() {
                     isListCompleted={list.isListCompleted}
                     statusText={list.statusText}
                     items={list.items}
+                    quantity={list.items.length}
+                    unit={list.items[0]?.unit || 'pcs'}
                   />
                 ))}
             </TabsContent>
@@ -71,6 +107,8 @@ export function CartList({
   isListCompleted?: boolean;
   statusText: string;
   items: ListItem[];
+  quantity: number;
+  unit: string;
 }) {
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow-md transition-shadow duration-200 hover:shadow-lg dark:bg-gray-800">
@@ -78,16 +116,44 @@ export function CartList({
         {name} {isListCompleted && '✔️'}
       </h2>
       <p className="text-sm text-gray-500 dark:text-gray-400">{statusText}</p>
-      <ul>
-        {items.map((item) => {
-          return (
-            <li key={item.id}>
-              {item.name}
-              {item.isCompleted && '✔️'}
-            </li>
-          );
-        })}
-      </ul>
+      <div>
+        <ul>
+          {items.map((item) => {
+            return (
+              <li
+                key={item.id}
+                className={`mt-2 flex items-center justify-between rounded-md p-2 ${
+                  item.isCompleted
+                    ? 'bg-gray-200 text-gray-400 line-through dark:bg-gray-700 dark:text-gray-500'
+                    : 'bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                }`}
+              >
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`item-${item.id}`}
+                    checked={item.isCompleted}
+                    // You would add an `onCheckedChange` handler here to update the state.
+                  />
+                  <label
+                    htmlFor={`item-${item.id}`}
+                    className="text-md cursor-pointer font-medium"
+                  >
+                    {item.name}
+                    {item.quantity > 0 && (
+                      <span className="ml-4 text-sm text-gray-400 dark:text-gray-500">
+                        {item.quantity} {item.unit}
+                      </span>
+                    )}
+                  </label>
+                </div>
+                <Button variant="ghost" size="icon-sm">
+                  <Trash className="h-4 w-4" />
+                </Button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
