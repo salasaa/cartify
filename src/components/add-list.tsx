@@ -51,7 +51,7 @@ export function AddListForm({
           )}
         />
         <Button type="submit" className="w-full">
-          Buat List
+          Create List
         </Button>
       </form>
     </Form>
