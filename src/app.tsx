@@ -17,13 +17,13 @@ import { CartList } from '@/modules/list/components/cart-list';
 export function App() {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const calculatedLists = calculateLists(dataLists);
-
   const handleAddNewList = (listName: string) => {
     console.log('Create a new list:', listName);
     // Here you would typically add the new list to your state or backend.
     setOpenDialog(false);
   };
+
+  const calculatedLists = calculateLists(dataLists);
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
