@@ -10,20 +10,29 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { dataLists } from '@/modules/list/data';
-import { calculateLists } from '@/modules/list/helper';
 import { AddListForm } from '@/modules/list/components/add-list';
 import { CartList } from '@/modules/list/components/cart-list';
 
 export function App() {
+  const [lists, setLists] = useState(dataLists);
+
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleAddNewList = (listName: string) => {
     console.log('Create a new list:', listName);
-    // Here you would typically add the new list to your state or backend.
     setOpenDialog(false);
-  };
 
-  const calculatedLists = calculateLists(dataLists);
+    setLists([
+      ...lists,
+      {
+        id: lists.length + 1,
+        name: listName,
+        isCompleted: false,
+        statusText: '',
+        items: [],
+      },
+    ]);
+  };
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
@@ -63,11 +72,11 @@ export function App() {
               <TabsTrigger value="completed">Completed</TabsTrigger>
             </TabsList>
             <TabsContent value="recent">
-              {calculatedLists.map((list) => (
+              {lists.map((list) => (
                 <CartList
                   key={list.id}
                   name={list.name}
-                  isListCompleted={list.isListCompleted}
+                  isListCompleted={list.isCompleted}
                   statusText={list.statusText}
                   items={list.items}
                   quantity={list.items.length}
@@ -76,13 +85,13 @@ export function App() {
               ))}
             </TabsContent>
             <TabsContent value="completed">
-              {calculatedLists
-                .filter((list) => list.isListCompleted)
+              {lists
+                .filter((list) => list.isCompleted)
                 .map((list) => (
                   <CartList
                     key={list.id}
                     name={list.name}
-                    isListCompleted={list.isListCompleted}
+                    isListCompleted={list.isCompleted}
                     statusText={list.statusText}
                     items={list.items}
                     quantity={list.items.length}

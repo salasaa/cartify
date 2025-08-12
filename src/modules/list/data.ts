@@ -10,6 +10,7 @@ export type DataList = {
   id: number;
   name: string;
   isCompleted: boolean;
+  statusText: string;
   items: ListItem[];
 };
 
@@ -18,16 +19,19 @@ export const dataLists: DataList[] = [
     id: 1,
     name: 'Grocery List',
     isCompleted: true,
+    statusText: 'Task is completed',
     items: [
       { id: 1, name: 'Coffee', isCompleted: true, quantity: 50, unit: 'gr' },
       { id: 2, name: 'Milk', isCompleted: true, quantity: 3, unit: 'L' },
       { id: 3, name: 'Bread', isCompleted: true, quantity: 20, unit: 'gr' },
+      { id: 4, name: 'Egg', isCompleted: true, quantity: 500, unit: 'gr' },
     ],
   },
   {
     id: 2,
     name: 'Shopping List',
     isCompleted: true,
+    statusText: '2 of 3 tasks are completed',
     items: [
       { id: 1, name: 'Tshirt', isCompleted: true, quantity: 2, unit: 'pcs' },
       { id: 2, name: 'Jeans', isCompleted: false, quantity: 1, unit: 'pcs' },
@@ -38,6 +42,7 @@ export const dataLists: DataList[] = [
     id: 3,
     name: 'Workshop List',
     isCompleted: false,
+    statusText: '1 of 2 tasks are completed',
     items: [
       { id: 1, name: 'nails', isCompleted: true, quantity: 1, unit: 'kg' },
       { id: 2, name: 'glue', isCompleted: false, quantity: 1, unit: 'pcs' },
