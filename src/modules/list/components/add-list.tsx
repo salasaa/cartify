@@ -1,4 +1,3 @@
-// components/AddListForm.tsx
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -50,6 +49,7 @@ export function AddListForm({
             </FormItem>
           )}
         />
+
         <Button type="submit" className="w-full">
           Create List
         </Button>

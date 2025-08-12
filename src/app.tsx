@@ -19,7 +19,6 @@ export function App() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleAddNewList = (listName: string) => {
-    console.log('Create a new list:', listName);
     setOpenDialog(false);
 
     setLists([
