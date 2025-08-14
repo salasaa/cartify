@@ -30,7 +30,7 @@ export const dataLists: DataList[] = [
   {
     id: 2,
     name: 'Shopping List',
-    isCompleted: true,
+    isCompleted: false,
     statusText: '2 of 3 tasks are completed',
     items: [
       { id: 1, name: 'Tshirt', isCompleted: true, quantity: 2, unit: 'pcs' },

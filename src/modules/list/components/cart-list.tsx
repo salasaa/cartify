@@ -1,19 +1,26 @@
+// src/modules/list/components/cart-list.tsx
 import { Checkbox } from '@/components/ui/checkbox';
 import { type ListItem } from '@/modules/list/data';
-import { Trash } from 'lucide-react';
+import { PlusIcon, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 export function CartList({
   name,
+  onRemoveItem,
   isListCompleted,
   statusText,
   items,
+  onAddNewItem,
+  listId,
 }: {
   name: string;
+  onRemoveItem: (listId: number) => void;
   isListCompleted?: boolean;
   statusText: string;
   items: ListItem[];
+  onAddNewItem?: () => void;
+  listId: number;
   quantity: number;
   unit: string;
 }) {
@@ -54,13 +61,26 @@ export function CartList({
                     )}
                   </label>
                 </div>
-                <Button variant="ghost" size="icon-sm">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  onClick={() => onRemoveItem(listId)}
+                >
                   <Trash className="h-4 w-4" />
                 </Button>
               </li>
             );
           })}
         </ul>
+        <div className="mt-4">
+          <Button
+            className="mt-2 flex w-full rounded-md p-2"
+            onClick={onAddNewItem}
+          >
+            <PlusIcon className="mr-1" />
+            Add Item
+          </Button>
+        </div>
       </div>
     </div>
   );

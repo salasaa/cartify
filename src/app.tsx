@@ -9,12 +9,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { dataLists } from '@/modules/list/data';
+import { dataLists, type ListItem } from '@/modules/list/data';
 import { AddListForm } from '@/modules/list/components/add-list';
 import { CartList } from '@/modules/list/components/cart-list';
 
 export function App() {
   const [lists, setLists] = useState(dataLists);
+
+  const AddNewItem = (listId: number) => {
+    const newItem = {
+      id: lists.length + 1,
+      name: 'New Item',
+      quantity: 1,
+      unit: 'pcs',
+      isCompleted: false,
+    };
+
+    const newDataList = lists.map((list) => {
+      if (list.id === listId) {
+        return {
+          ...list,
+          items: [...list.items, newItem as ListItem],
+        };
+      }
+      return list;
+    });
+
+    setLists(newDataList);
+  };
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -31,6 +53,20 @@ export function App() {
         items: [],
       },
     ]);
+  };
+
+  const handleRemoveItem = (listId: number) => {
+    setLists(
+      lists.filter((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            items: list.items.filter((item) => item.id !== listId),
+          };
+        }
+        return list;
+      }),
+    );
   };
 
   return (
@@ -74,12 +110,15 @@ export function App() {
               {lists.map((list) => (
                 <CartList
                   key={list.id}
+                  listId={list.id}
                   name={list.name}
                   isListCompleted={list.isCompleted}
                   statusText={list.statusText}
                   items={list.items}
                   quantity={list.items.length}
                   unit={list.items[0]?.unit || 'pcs'}
+                  onAddNewItem={() => AddNewItem(list.id)}
+                  onRemoveItem={handleRemoveItem}
                 />
               ))}
             </TabsContent>
@@ -89,12 +128,15 @@ export function App() {
                 .map((list) => (
                   <CartList
                     key={list.id}
+                    listId={list.id}
                     name={list.name}
                     isListCompleted={list.isCompleted}
                     statusText={list.statusText}
                     items={list.items}
                     quantity={list.items.length}
                     unit={list.items[0]?.unit || 'pcs'}
+                    onAddNewItem={() => AddNewItem(list.id)}
+                    onRemoveItem={handleRemoveItem}
                   />
                 ))}
             </TabsContent>
