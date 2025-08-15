@@ -1,34 +1,43 @@
 // src/modules/list/components/cart-list.tsx
 import { Checkbox } from '@/components/ui/checkbox';
 import { type ListItem } from '@/modules/list/data';
-import { PlusIcon, Trash } from 'lucide-react';
+import { PlusIcon, Trash, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 export function CartList({
   name,
-  onRemoveItem,
   isListCompleted,
   statusText,
   items,
   onAddNewItem,
-  listId,
+  deleteList,
 }: {
   name: string;
-  onRemoveItem: (listId: number) => void;
   isListCompleted?: boolean;
   statusText: string;
   items: ListItem[];
   onAddNewItem?: () => void;
-  listId: number;
+  deleteList?: () => void;
   quantity: number;
   unit: string;
 }) {
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow-md transition-shadow duration-200 hover:shadow-lg dark:bg-gray-800">
-      <h2 className="mb-2 text-xl font-semibold">
-        {name} {isListCompleted && '✔️'}
-      </h2>
+      <div className="mb-2 flex items-center justify-between">
+        <h2 className="mb-2 text-xl font-semibold">
+          {name} {isListCompleted && '✔️'}
+        </h2>
+        <Button
+          variant="destructive"
+          className="rounded-xl"
+          size="icon-sm"
+          onClick={deleteList}
+        >
+          <X />
+        </Button>
+      </div>
+
       <p className="text-sm text-gray-500 dark:text-gray-400">{statusText}</p>
       <div>
         <ul>
@@ -61,11 +70,7 @@ export function CartList({
                     )}
                   </label>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={() => onRemoveItem(listId)}
-                >
+                <Button variant="ghost" size="icon-sm">
                   <Trash className="h-4 w-4" />
                 </Button>
               </li>

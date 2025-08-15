@@ -18,7 +18,7 @@ export function App() {
 
   const AddNewItem = (listId: number) => {
     const newItem = {
-      id: lists.length + 1,
+      id: Date.now(),
       name: 'New Item',
       quantity: 1,
       unit: 'pcs',
@@ -46,7 +46,7 @@ export function App() {
     setLists([
       ...lists,
       {
-        id: lists.length + 1,
+        id: Date.now(),
         name: listName,
         isCompleted: false,
         statusText: '',
@@ -55,19 +55,16 @@ export function App() {
     ]);
   };
 
-  const handleRemoveItem = (listId: number) => {
-    setLists(
-      lists.filter((list) => {
-        if (list.id === listId) {
-          return {
-            ...list,
-            items: list.items.filter((item) => item.id !== listId),
-          };
-        }
-        return list;
-      }),
-    );
+  const handleDeleteList = (listId: number) => {
+    const updatedLists = lists.filter((list) => list.id !== listId);
+    setLists(updatedLists);
   };
+
+  // const handleDeleteItem = (itemId: number, listId: number) => {
+  //     const updatedLists = lists.filter((list) => {
+  //       if
+  //     })
+  //   };
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
@@ -110,7 +107,6 @@ export function App() {
               {lists.map((list) => (
                 <CartList
                   key={list.id}
-                  listId={list.id}
                   name={list.name}
                   isListCompleted={list.isCompleted}
                   statusText={list.statusText}
@@ -118,7 +114,7 @@ export function App() {
                   quantity={list.items.length}
                   unit={list.items[0]?.unit || 'pcs'}
                   onAddNewItem={() => AddNewItem(list.id)}
-                  onRemoveItem={handleRemoveItem}
+                  deleteList={() => handleDeleteList(list.id)}
                 />
               ))}
             </TabsContent>
@@ -128,7 +124,6 @@ export function App() {
                 .map((list) => (
                   <CartList
                     key={list.id}
-                    listId={list.id}
                     name={list.name}
                     isListCompleted={list.isCompleted}
                     statusText={list.statusText}
@@ -136,7 +131,6 @@ export function App() {
                     quantity={list.items.length}
                     unit={list.items[0]?.unit || 'pcs'}
                     onAddNewItem={() => AddNewItem(list.id)}
-                    onRemoveItem={handleRemoveItem}
                   />
                 ))}
             </TabsContent>
