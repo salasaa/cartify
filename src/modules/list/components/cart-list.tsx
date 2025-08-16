@@ -1,7 +1,7 @@
 // src/modules/list/components/cart-list.tsx
 import { Checkbox } from '@/components/ui/checkbox';
 import { type ListItem } from '@/modules/list/data';
-import { PlusIcon, Trash, X } from 'lucide-react';
+import { PlusIcon, TrashIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -36,7 +36,7 @@ export function CartList({
           size="icon-sm"
           onClick={deleteList}
         >
-          <X />
+          <TrashIcon className="h-4 w-4" />
         </Button>
       </div>
 
@@ -77,7 +77,7 @@ export function CartList({
                   size="icon-sm"
                   onClick={() => deleteItem?.(item.id)}
                 >
-                  <Trash className="h-4 w-4" />
+                  <TrashIcon className="h-4 w-4" />
                 </Button>
               </li>
             );

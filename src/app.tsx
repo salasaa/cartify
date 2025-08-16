@@ -16,9 +16,12 @@ import { CartList } from '@/modules/list/components/cart-list';
 export function App() {
   const [lists, setLists] = useState(dataLists);
 
-  const AddNewItem = (listId: number) => {
+  const addNewItem = (listId: number) => {
+    const list = lists.find((list) => list.id === listId);
+    const items = list?.items || [];
+
     const newItem = {
-      id: lists[lists.length - 1]?.id + 1 || 1,
+      id: items[items.length - 1]?.id + 1 || 1,
       name: 'New Item',
       quantity: 1,
       unit: 'pcs',
@@ -121,7 +124,7 @@ export function App() {
                   items={list.items}
                   quantity={list.items.length}
                   unit={list.items[0]?.unit || 'pcs'}
-                  onAddNewItem={() => AddNewItem(list.id)}
+                  onAddNewItem={() => addNewItem(list.id)}
                   deleteList={() => handleDeleteList(list.id)}
                   deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
                 />
@@ -139,7 +142,7 @@ export function App() {
                     items={list.items}
                     quantity={list.items.length}
                     unit={list.items[0]?.unit || 'pcs'}
-                    onAddNewItem={() => AddNewItem(list.id)}
+                    onAddNewItem={() => addNewItem(list.id)}
                     deleteList={() => handleDeleteItem(list.id, list.id)}
                     deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
                   />
