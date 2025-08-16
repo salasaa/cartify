@@ -12,6 +12,7 @@ export function CartList({
   items,
   onAddNewItem,
   deleteList,
+  deleteItem,
 }: {
   name: string;
   isListCompleted?: boolean;
@@ -19,6 +20,7 @@ export function CartList({
   items: ListItem[];
   onAddNewItem?: () => void;
   deleteList?: () => void;
+  deleteItem?: (itemId: number) => void;
   quantity: number;
   unit: string;
 }) {
@@ -70,7 +72,11 @@ export function CartList({
                     )}
                   </label>
                 </div>
-                <Button variant="ghost" size="icon-sm">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  onClick={() => deleteItem?.(item.id)}
+                >
                   <Trash className="h-4 w-4" />
                 </Button>
               </li>

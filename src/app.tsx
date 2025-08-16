@@ -18,14 +18,14 @@ export function App() {
 
   const AddNewItem = (listId: number) => {
     const newItem = {
-      id: Date.now(),
+      id: lists[lists.length - 1]?.id + 1 || 1,
       name: 'New Item',
       quantity: 1,
       unit: 'pcs',
       isCompleted: false,
     };
 
-    const newDataList = lists.map((list) => {
+    const newList = lists.map((list) => {
       if (list.id === listId) {
         return {
           ...list,
@@ -35,7 +35,7 @@ export function App() {
       return list;
     });
 
-    setLists(newDataList);
+    setLists(newList);
   };
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -46,7 +46,7 @@ export function App() {
     setLists([
       ...lists,
       {
-        id: Date.now(),
+        id: lists[lists.length - 1]?.id + 1 || 1,
         name: listName,
         isCompleted: false,
         statusText: '',
@@ -60,11 +60,19 @@ export function App() {
     setLists(updatedLists);
   };
 
-  // const handleDeleteItem = (itemId: number, listId: number) => {
-  //     const updatedLists = lists.filter((list) => {
-  //       if
-  //     })
-  //   };
+  const handleDeleteItem = (itemId: number, listId: number) => {
+    const updatedLists = lists.map((list) => {
+      if (list.id === listId) {
+        const updatedItems = list.items.filter((item) => item.id !== itemId);
+        return {
+          ...list,
+          items: updatedItems,
+        };
+      }
+      return list;
+    });
+    setLists(updatedLists);
+  };
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
@@ -115,6 +123,7 @@ export function App() {
                   unit={list.items[0]?.unit || 'pcs'}
                   onAddNewItem={() => AddNewItem(list.id)}
                   deleteList={() => handleDeleteList(list.id)}
+                  deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
                 />
               ))}
             </TabsContent>
@@ -131,6 +140,8 @@ export function App() {
                     quantity={list.items.length}
                     unit={list.items[0]?.unit || 'pcs'}
                     onAddNewItem={() => AddNewItem(list.id)}
+                    deleteList={() => handleDeleteItem(list.id, list.id)}
+                    deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
                   />
                 ))}
             </TabsContent>
