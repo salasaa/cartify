@@ -14,7 +14,7 @@ export type DataList = {
   items: ListItem[];
 };
 
-export const dataLists: DataList[] = [
+export const initialDataLists: DataList[] = [
   {
     id: 1,
     name: 'Grocery List',

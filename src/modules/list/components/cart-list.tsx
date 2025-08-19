@@ -4,8 +4,10 @@ import { type ListItem } from '@/modules/list/data';
 import { PlusIcon, TrashIcon, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export function CartList({
+  listId,
   name,
   isListCompleted,
   statusText,
@@ -14,11 +16,12 @@ export function CartList({
   deleteList,
   deleteItem,
 }: {
+  listId: number;
   name: string;
   isListCompleted?: boolean;
   statusText: string;
   items: ListItem[];
-  onAddNewItem?: () => void;
+  onAddNewItem: (event: React.FormEvent<HTMLFormElement>) => void;
   deleteList?: () => void;
   deleteItem?: (itemId: number) => void;
   quantity: number;
@@ -84,13 +87,14 @@ export function CartList({
           })}
         </ul>
         <div className="mt-4">
-          <Button
-            className="mt-2 flex w-full rounded-md p-2"
-            onClick={onAddNewItem}
-          >
-            <PlusIcon className="mr-1" />
-            Add Item
-          </Button>
+          <form method="post" onSubmit={onAddNewItem}>
+            <input type="hidden" name="listId" defaultValue={listId} />
+            <Input type="text" name="name" />
+            <Button className="mt-2 flex w-full rounded-md p-2">
+              <PlusIcon className="mr-1" />
+              Add Item
+            </Button>
+          </form>
         </div>
       </div>
     </div>
