@@ -25,7 +25,12 @@ export function App() {
     if (!listId) return;
 
     const name = formData.get('name')?.toString();
+    const quantity = formData.get('quantity')?.toString();
+    const unit = formData.get('unit')?.toString();
+
     if (!name) return;
+    if (!quantity) return;
+    if (!unit) return;
 
     const list = lists.find((list) => list.id === listId);
 
@@ -34,8 +39,8 @@ export function App() {
     const newItem = {
       id: items[items.length - 1]?.id + 1 || 1,
       name: name,
-      quantity: 1,
-      unit: 'pcs',
+      quantity: quantity,
+      unit: unit,
       isCompleted: false,
     };
 

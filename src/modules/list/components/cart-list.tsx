@@ -90,6 +90,8 @@ export function CartList({
           <form onSubmit={onAddNewItem} method="post">
             <input type="hidden" name="listId" defaultValue={listId} />
             <Input type="text" name="name" placeholder="Add Item" />
+            <Input type="number" name="quantity" placeholder="1" />
+            <Input type="text" name="unit" placeholder="kg" />
             <Button className="mt-2 flex w-full rounded-md p-2">
               <PlusIcon className="mr-1" />
               Add Item
