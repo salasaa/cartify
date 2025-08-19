@@ -48,7 +48,7 @@ export function App() {
       if (list.id === listId) {
         return {
           ...list,
-          items: [...list.items, newItem as ListItem],
+          items: [...list.items, newItem as unknown as ListItem],
         };
       }
       return list;
