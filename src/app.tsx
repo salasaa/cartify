@@ -9,20 +9,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { dataLists, type ListItem } from '@/modules/list/data';
+import { initialDataLists, type ListItem } from '@/modules/list/data';
 import { AddListForm } from '@/modules/list/components/add-list';
 import { CartList } from '@/modules/list/components/cart-list';
 
 export function App() {
-  const [lists, setLists] = useState(dataLists);
+  const [lists, setLists] = useState(initialDataLists);
 
-  const addNewItem = (listId: number) => {
+  const addNewItem = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    const listId = Number(formData.get('listId'));
+    if (!listId) return;
+
+    const name = formData.get('name')?.toString();
+    if (!name) return;
+
     const list = lists.find((list) => list.id === listId);
+
     const items = list?.items || [];
 
     const newItem = {
       id: items[items.length - 1]?.id + 1 || 1,
-      name: 'New Item',
+      name: name,
       quantity: 1,
       unit: 'pcs',
       isCompleted: false,
@@ -39,6 +50,7 @@ export function App() {
     });
 
     setLists(newList);
+    event.currentTarget.reset();
   };
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -118,13 +130,14 @@ export function App() {
               {lists.map((list) => (
                 <CartList
                   key={list.id}
+                  listId={list.id}
                   name={list.name}
                   isListCompleted={list.isCompleted}
                   statusText={list.statusText}
                   items={list.items}
                   quantity={list.items.length}
                   unit={list.items[0]?.unit || 'pcs'}
-                  onAddNewItem={() => addNewItem(list.id)}
+                  onAddNewItem={addNewItem}
                   deleteList={() => handleDeleteList(list.id)}
                   deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
                 />
@@ -136,13 +149,14 @@ export function App() {
                 .map((list) => (
                   <CartList
                     key={list.id}
+                    listId={list.id}
                     name={list.name}
                     isListCompleted={list.isCompleted}
                     statusText={list.statusText}
                     items={list.items}
                     quantity={list.items.length}
                     unit={list.items[0]?.unit || 'pcs'}
-                    onAddNewItem={() => addNewItem(list.id)}
+                    onAddNewItem={addNewItem}
                     deleteList={() => handleDeleteItem(list.id, list.id)}
                     deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
                   />
