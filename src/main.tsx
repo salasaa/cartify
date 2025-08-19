@@ -1,10 +1,18 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import { App } from "./app.tsx";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import { App } from '@/app.tsx';
+import { About } from '@/routes/about.tsx';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
-createRoot(document.getElementById("root")!).render(
+/* StrictMode helps with identifying potential problems in on application / can be used or not, it doesn't matter */
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-  </StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  </StrictMode>,
 );
