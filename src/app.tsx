@@ -25,7 +25,7 @@ export function App() {
     if (!listId) return;
 
     const name = formData.get('name')?.toString();
-    const quantity = formData.get('quantity')?.toString();
+    const quantity = Number(formData.get('quantity'));
     const unit = formData.get('unit')?.toString();
 
     if (!name) return;
@@ -48,7 +48,7 @@ export function App() {
       if (list.id === listId) {
         return {
           ...list,
-          items: [...list.items, newItem as unknown as ListItem],
+          items: [...list.items, newItem as ListItem],
         };
       }
       return list;
@@ -126,48 +126,73 @@ export function App() {
         </section>
 
         <section className="mt-2 max-w-full overflow-auto">
-          <Tabs defaultValue="recent">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="recent">Recent</TabsTrigger>
-              <TabsTrigger value="completed">Completed</TabsTrigger>
-            </TabsList>
-            <TabsContent value="recent">
-              {lists.map((list) => (
-                <CartList
-                  key={list.id}
-                  listId={list.id}
-                  name={list.name}
-                  isListCompleted={list.isCompleted}
-                  statusText={list.statusText}
-                  items={list.items}
-                  quantity={list.items.length}
-                  unit={list.items[0]?.unit || 'pcs'}
-                  onAddNewItem={addNewItem}
-                  deleteList={() => handleDeleteList(list.id)}
-                  deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
-                />
-              ))}
-            </TabsContent>
-            <TabsContent value="completed">
-              {lists
-                .filter((list) => list.isCompleted)
-                .map((list) => (
-                  <CartList
-                    key={list.id}
-                    listId={list.id}
-                    name={list.name}
-                    isListCompleted={list.isCompleted}
-                    statusText={list.statusText}
-                    items={list.items}
-                    quantity={list.items.length}
-                    unit={list.items[0]?.unit || 'pcs'}
-                    onAddNewItem={addNewItem}
-                    deleteList={() => handleDeleteItem(list.id, list.id)}
-                    deleteItem={(itemId) => handleDeleteItem(itemId, list.id)}
-                  />
-                ))}
-            </TabsContent>
-          </Tabs>
+          {lists.length === 0 ? (
+            <div className="py-12 text-center">
+              <div className="mx-auto justify-items-center rounded-lg p-8 shadow-md">
+                <img src="public/no-data-img.svg" alt="empty image" />
+                <h2 className="mb-4 text-xl font-semibold text-gray-700">
+                  Start by creating list
+                </h2>
+                <p className="mb-6 text-gray-600">
+                  Your smart shopping list will shown here. start by creating a
+                  new list
+                </p>
+              </div>
+            </div>
+          ) : (
+            <Tabs defaultValue="recent">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="recent">Recent</TabsTrigger>
+                <TabsTrigger value="completed">Completed</TabsTrigger>
+              </TabsList>
+              <TabsContent value="recent">
+                <ul>
+                  {lists.map((list) => (
+                    <li key={list.id}>
+                      <CartList
+                        listId={list.id}
+                        name={list.name}
+                        isListCompleted={list.isCompleted}
+                        statusText={list.statusText}
+                        items={list.items}
+                        quantity={list.items.length}
+                        unit={list.items[0]?.unit || 'pcs'}
+                        onAddNewItem={addNewItem}
+                        deleteList={() => handleDeleteList(list.id)}
+                        deleteItem={(itemId) =>
+                          handleDeleteItem(itemId, list.id)
+                        }
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </TabsContent>
+              <TabsContent value="completed">
+                <ul>
+                  {lists
+                    .filter((list) => list.isCompleted)
+                    .map((list) => (
+                      <li key={list.id}>
+                        <CartList
+                          listId={list.id}
+                          name={list.name}
+                          isListCompleted={list.isCompleted}
+                          statusText={list.statusText}
+                          items={list.items}
+                          quantity={list.items.length}
+                          unit={list.items[0]?.unit || 'pcs'}
+                          onAddNewItem={addNewItem}
+                          deleteList={() => handleDeleteItem(list.id, list.id)}
+                          deleteItem={(itemId) =>
+                            handleDeleteItem(itemId, list.id)
+                          }
+                        />
+                      </li>
+                    ))}
+                </ul>
+              </TabsContent>
+            </Tabs>
+          )}
         </section>
       </div>
     </div>
