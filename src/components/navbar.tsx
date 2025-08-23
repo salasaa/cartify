@@ -25,7 +25,7 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-baseline justify-between space-x-4">
               <Link
                 to="/"
                 className="text-foreground hover:text-primary hover:bg-accent/50 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200"

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -9,12 +10,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { initialDataLists, type ListItem } from '@/modules/list/data';
+import {
+  initialDataLists,
+  type DataList,
+  type ListItem,
+} from '@/modules/list/data';
 import { AddListForm } from '@/modules/list/components/add-list';
 import { CartList } from '@/modules/list/components/cart-list';
 
 export function App() {
-  const [lists, setLists] = useState(initialDataLists);
+  const [lists, setLists] = useState(() => {
+    const storedLists = localStorage.getItem('lists');
+    return storedLists
+      ? (JSON.parse(storedLists) as DataList[])
+      : initialDataLists;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('lists', JSON.stringify(lists));
+  }, [lists]);
 
   const addNewItem = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -129,12 +143,10 @@ export function App() {
           {lists.length === 0 ? (
             <div className="py-12 text-center">
               <div className="mx-auto justify-items-center rounded-lg p-8 shadow-md">
-                <img src="./public/no-data-img.svg" alt="empty image" />
-                <img src="../public/no-data-img.svg" alt="empty image" />
-                <h2 className="mb-4 text-xl font-semibold text-gray-700">
+                <h2 className="mb-4 text-xl font-semibold text-gray-600">
                   Start by creating list
                 </h2>
-                <p className="mb-6 text-gray-600">
+                <p className="mb-6 text-gray-700">
                   Your smart shopping list will shown here. start by creating a
                   new list
                 </p>
