@@ -96,32 +96,7 @@ export function App() {
     const updatedLists = lists.map((list) => {
       if (list.id === listId) {
         const updatedItems = list.items.filter((item) => item.id !== itemId);
-        return {
-          ...list,
-          items: updatedItems,
-        };
-      }
-      return list;
-    });
-    setLists(updatedLists);
-  };
 
-  // di file App.tsx
-
-  // ... import dan state lainnya
-
-  const handleToggleItem = (itemId: number, listId: number) => {
-    const updatedLists = lists.map((list) => {
-      if (list.id === listId) {
-        // Perbarui status 'isCompleted' untuk item yang dipilih
-        const updatedItems = list.items.map((item) => {
-          if (item.id === itemId) {
-            return { ...item, isCompleted: !item.isCompleted };
-          }
-          return item;
-        });
-
-        // Hitung item yang sudah selesai
         const completedItemsCount = updatedItems.filter(
           (item) => item.isCompleted,
         ).length;
@@ -130,9 +105,8 @@ export function App() {
         let newStatusText = '';
         let newIsListCompleted = false;
 
-        // Tentukan statusText berdasarkan hitungan
         if (completedItemsCount === 0) {
-          newStatusText = 'Lists is incomplete'; // Atau sesuai keinginan Anda
+          newStatusText = 'List is empty';
           newIsListCompleted = false;
         } else if (completedItemsCount === totalItemsCount) {
           newStatusText = 'Lists is completed';
@@ -142,7 +116,6 @@ export function App() {
           newIsListCompleted = false;
         }
 
-        // Kembalikan objek list yang sudah diperbarui
         return {
           ...list,
           items: updatedItems,
@@ -156,7 +129,47 @@ export function App() {
     setLists(updatedLists);
   };
 
-  // ... kode lainnya
+  const handleToggleItem = (itemId: number, listId: number) => {
+    const updatedLists = lists.map((list) => {
+      if (list.id === listId) {
+        const updatedItems = list.items.map((item) => {
+          if (item.id === itemId) {
+            return { ...item, isCompleted: !item.isCompleted };
+          }
+          return item;
+        });
+
+        const completedItemsCount = updatedItems.filter(
+          (item) => item.isCompleted,
+        ).length;
+        const totalItemsCount = updatedItems.length;
+
+        let newStatusText = '';
+        let newIsListCompleted = false;
+
+        if (completedItemsCount === 0) {
+          newStatusText = 'List is empty';
+          newIsListCompleted = false;
+        } else if (completedItemsCount === totalItemsCount) {
+          newStatusText = 'Lists is completed';
+          newIsListCompleted = true;
+        } else {
+          newStatusText = `${completedItemsCount} of ${totalItemsCount}  lists are incomplete`;
+          newIsListCompleted = false;
+        }
+
+        return {
+          ...list,
+          items: updatedItems,
+          isCompleted: newIsListCompleted,
+          statusText: newStatusText,
+        };
+      }
+      return list;
+    });
+
+    setLists(updatedLists);
+  };
 
   return (
     <div className="min-h-screen bg-white p-4 text-gray-900 transition-colors duration-200 sm:p-6 md:p-8 dark:bg-gray-900 dark:text-gray-100">
