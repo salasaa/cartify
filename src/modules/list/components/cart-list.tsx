@@ -15,6 +15,7 @@ export function CartList({
   onAddNewItem,
   deleteList,
   deleteItem,
+  onToggleItem,
 }: {
   listId: number;
   name: string;
@@ -24,6 +25,7 @@ export function CartList({
   onAddNewItem: (event: React.FormEvent<HTMLFormElement>) => void;
   deleteList?: () => void;
   deleteItem?: (itemId: number) => void;
+  onToggleItem: (itemId: number) => void;
   quantity: number;
   unit: string;
 }) {
@@ -61,7 +63,8 @@ export function CartList({
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id={`item-${item.id}`}
-                    defaultChecked={item.isCompleted}
+                    checked={item.isCompleted}
+                    onCheckedChange={() => onToggleItem(item.id)}
                   />
                   <label
                     htmlFor={`item-${item.id}`}
