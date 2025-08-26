@@ -6,6 +6,7 @@ import { About } from '@/routes/about.tsx';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { BrowserRouter, Route, Routes } from 'react-router';
+import { Upload } from './routes/upload';
 
 /* StrictMode helps with identifying potential problems in on application / can be used or not, it doesn't matter */
 createRoot(document.getElementById('root')!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/about" element={<About />} />
+        <Route path="/upload" element={<Upload />} />
       </Routes>
       <Footer />
     </BrowserRouter>
