@@ -25,20 +25,24 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline justify-between space-x-4">
-              <Link
-                to="/"
-                className="text-foreground hover:text-primary hover:bg-accent/50 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200"
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="text-foreground hover:text-primary hover:bg-accent/50 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200"
-              >
-                About
-              </Link>
-            </div>
+            <ul className="ml-10 flex items-baseline justify-between space-x-4">
+              <li>
+                <Link
+                  to="/"
+                  className="text-foreground hover:text-primary hover:bg-accent/50 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-foreground hover:text-primary hover:bg-accent/50 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200"
+                >
+                  About
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Mobile menu button */}
@@ -62,22 +66,26 @@ export function Navbar() {
       {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="md:hidden">
-          <div className="border-border space-y-1 border-t px-2 pt-2 pb-3 sm:px-3">
-            <Link
-              to="/"
-              className="text-foreground hover:text-primary hover:bg-accent/50 block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className="text-foreground hover:text-primary hover:bg-accent/50 block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </Link>
-          </div>
+          <ul className="border-border border-t px-2 pt-2 pb-3 sm:px-3 space-y-1">
+            <li>
+              <Link
+                to="/"
+                className="text-foreground hover:text-primary hover:bg-accent/50 block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about"
+                className="text-foreground hover:text-primary hover:bg-accent/50 block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+            </li>
+          </ul>
         </div>
       )}
     </nav>
