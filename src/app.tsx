@@ -206,6 +206,7 @@ export function App() {
           {lists.length === 0 ? (
             <div className="py-12 text-center">
               <div className="mx-auto justify-items-center rounded-lg p-8 shadow-md">
+                <img src="/no-data-img.svg" alt="No Data" />
                 <h2 className="mb-4 text-xl font-semibold text-gray-600">
                   Start by creating list
                 </h2>
