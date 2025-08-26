@@ -1,10 +1,18 @@
 // src/modules/list/components/cart-list.tsx
 import { Checkbox } from '@/components/ui/checkbox';
 import { type ListItem } from '@/modules/list/data';
-import { PlusIcon, TrashIcon, Trash2 } from 'lucide-react';
+import { PlusIcon, TrashIcon, Trash2Icon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { EllipsisVertical, EyeIcon, PencilIcon } from 'lucide-react';
 
 export function CartList({
   listId,
@@ -16,6 +24,7 @@ export function CartList({
   deleteList,
   deleteItem,
   onToggleItem,
+  viewList,
 }: {
   listId: number;
   name: string;
@@ -26,6 +35,7 @@ export function CartList({
   deleteList?: () => void;
   deleteItem?: (itemId: number) => void;
   onToggleItem: (itemId: number) => void;
+  viewList?: () => void;
   quantity: number;
   unit: string;
 }) {
@@ -35,14 +45,37 @@ export function CartList({
         <h2 className="mb-2 text-xl font-semibold">
           {name} {isListCompleted && '✔️'}
         </h2>
-        <Button
-          variant="destructive"
-          className="rounded-xl"
-          size="icon-sm"
-          onClick={deleteList}
-        >
-          <Trash2 />
-        </Button>
+
+        <section>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <EllipsisVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48" align="end">
+              <DropdownMenuItem
+                onClick={viewList}
+                className="flex items-center gap-2"
+              >
+                <EyeIcon className="h-4 w-4" />
+                <span>View</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex items-center gap-2">
+                <PencilIcon className="h-4 w-4" />
+                <span>Edit</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={deleteList}
+                className="flex items-center gap-2 text-red-500"
+              >
+                <Trash2Icon className="h-4 w-4" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </section>
       </div>
 
       <p className="text-sm text-gray-500 dark:text-gray-400">{statusText}</p>
