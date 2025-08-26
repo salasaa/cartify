@@ -1,4 +1,3 @@
-// src/modules/list/components/cart-list.tsx
 import { Checkbox } from '@/components/ui/checkbox';
 import { type ListItem } from '@/modules/list/data';
 import { PlusIcon, TrashIcon, Trash2Icon } from 'lucide-react';
@@ -13,6 +12,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { EllipsisVertical, EyeIcon, PencilIcon } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { useState } from 'react';
 
 export function CartList({
   listId,
@@ -39,6 +46,8 @@ export function CartList({
   quantity: number;
   unit: string;
 }) {
+  const [openDialog, setOpenDialog] = useState(false);
+
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow-md transition-shadow duration-200 hover:shadow-lg dark:bg-gray-800">
       <div className="mb-2 flex items-center justify-between">
@@ -123,30 +132,48 @@ export function CartList({
           })}
         </ul>
 
-        <div className="mt-4">
-          <form onSubmit={onAddNewItem} method="post">
-            <input type="hidden" name="listId" defaultValue={listId} />
-            <Input type="text" name="name" placeholder="Add Item" />
-            <div className="-mt-px flex">
-              <Input
-                className="flex-1"
-                type="number"
-                name="quantity"
-                placeholder="1"
-              />
-              <Input
-                className="flex-1"
-                type="text"
-                name="unit"
-                placeholder="kg"
-              />
-            </div>
-            <Button className="mt-2 flex w-full rounded-md p-2">
-              <PlusIcon className="mr-1" />
-              Add Item
-            </Button>
-          </form>
-        </div>
+        <section>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+            <DialogTrigger asChild>
+              <Button variant="outline">Add Item</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Add Item</DialogTitle>
+              </DialogHeader>
+              <form
+                onSubmit={(event) => {
+                  onAddNewItem(event);
+                  setOpenDialog(false);
+                }}
+                method="post"
+              >
+                <input type="hidden" name="listId" defaultValue={listId} />
+                <Input type="text" name="name" placeholder="Add Item" />
+                <div className="-mt-px flex">
+                  <Input
+                    className="flex-1"
+                    type="number"
+                    name="quantity"
+                    placeholder="1"
+                  />
+                  <Input
+                    className="flex-1"
+                    type="text"
+                    name="unit"
+                    placeholder="kg"
+                  />
+                </div>
+                <Button className="mt-2 flex w-full rounded-md p-2">
+                  <PlusIcon className="mr-1" />
+                  Submit Item
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </section>
+
+        <div className="mt-4"></div>
       </div>
     </div>
   );
